@@ -123,8 +123,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             when {
                 grantResults.isEmpty() -> {
-                    // If user interaction was interrupted, the permission request is cancelled and you
-                    // receive empty arrays.
+
                     Log.i(TAG, "User interaction was cancelled.")
                 }
                 grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
@@ -132,20 +131,19 @@ class MainActivity : AppCompatActivity() {
                     getLastLocation()
                 }
                 else -> {
-                    showSnackbar("Permission was denied", "Settings",
-                        View.OnClickListener {
-                            // Build intent that displays the App settings screen.
-                            val intent = Intent()
-                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                            val uri = Uri.fromParts(
-                                "package",
-                                Build.DISPLAY, null
-                            )
-                            intent.data = uri
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                        }
-                    )
+                    showSnackbar("Permission was denied", "Settings"
+                    ) {
+
+                        val intent = Intent()
+                        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        val uri = Uri.fromParts(
+                            "package",
+                            Build.DISPLAY, null
+                        )
+                        intent.data = uri
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                    }
                 }
             }
         }
